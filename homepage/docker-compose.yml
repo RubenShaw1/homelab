@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
+    ports:
+      - 8081:3000
+    volumes:
+      - /home/delta/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/delta/homepage/icons/:/app/public/icons
+      - /mnt/nas/:/mnt/nas
