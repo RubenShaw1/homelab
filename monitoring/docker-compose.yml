@@ -1,0 +1,68 @@
+version: '3.8'
+networks:
+  monitoring:
+    driver: bridge
+volumes:
+  prometheus_data: {}
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - 9100:9100
+    networks:
+      - monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    user: "1000"
+    environment:
+      - PUID=1000
+      - PGID=1000
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - /home/delta/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /home/delta/monitoring/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - 9090:9090
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana:latest
+    user: "1000"
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    volumes:
+      - /home/delta/monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - /home/delta/monitoring/grafana:/var/lib/grafana
+    networks:
+      - monitoring
+    environment:
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: ${CLIENT_ID}
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${CLIENT_SECRET}
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://auth.rubenshaw.com/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://auth.rubenshaw.com/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://auth.rubenshaw.com/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://auth.rubenshaw.com/application/o/grafana/end-session/"
+      GF_AUTH_OAUTH_AUTO_LOGIN: "true"
