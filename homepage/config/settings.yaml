@@ -1,0 +1,14 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/settings
+theme: dark
+background: https://images.unsplash.com/photo-1648070740128-9362eb0279e4?w=1920
+cardBlur: sm
+title: Dashboard
+headerStyle: clean
+providers:
+  openweathermap: {{HOMEPAGE_VAR_WEATHER_API_KEY}}
+
+layout:
+  style: row
+  columns: 4
