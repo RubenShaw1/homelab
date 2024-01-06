@@ -1,0 +1,27 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/widgets
+
+- resources:
+    label: System
+    cpu: true
+    memory: true
+    disk: /
+    cputemp: true
+    uptime: true
+    units: metric
+
+- resources:
+    label: Nas
+    disk: /mnt/nas
+
+- datetime:
+    text_size: sm
+    format:
+      dateStyle: long
+      timeStyle: long
+
+- openweathermap:
+    units: metric
+    provider: openweathermap
+    cache: 5
