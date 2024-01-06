@@ -1,0 +1,101 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Monitoring:
+    - Grafana:
+        icon: https://grafana.com/static/assets/img/fav32.png
+        href: https://grafana.rubenshaw.com
+
+    - Uptime Kuma:
+        icon: si-uptimekuma-#5CDD8B
+        href: https://uptime.rubenshaw.com
+        widget:
+          type: uptimekuma
+          url: http://192.168.0.200:3001
+          slug: all
+
+- Network:
+    - Pi-hole:
+        icon: https://wp-cdn.pi-hole.net/wp-content/uploads/2016/12/cropped-Vortex-R-192x192.png
+        href: https://pihole.rubenshaw.com/admin
+        widget:
+          type: pihole
+          url: http://192.168.0.200
+          key: {{HOMEPAGE_VAR_PIHOLE_API_KEY}}
+    - Cloudflare Tunnels:
+        icon: si-cloudflare-#F38020
+        href: https://one.dash.cloudflare.com/
+        widget:
+          type: cloudflared
+          accountid: {{HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID}}
+          tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID}}
+          key: {{HOMEPAGE_VAR_CLOUDFLARE_API_KEY}}
+
+    - Speedtest:
+        icon: si-speedtest-#141526
+        href: https://speedtest.rubenshaw.com
+        widget:
+          type: speedtest
+          url: https://192.168.0.200:8880
+
+- Docker:
+    - Portainer:
+        icon: si-portainer-#13BEF9
+        href: https://portainer.rubenshaw.com
+        widget:
+          type: portainer
+          url: https://192.168.0.200:9443
+          env: 2
+          key: {{HOMEPAGE_VAR_PORTAINER_API_KEY}}
+
+
+
+
+
+- Social:
+    - Shlink:
+        icon: https://app.shlink.io/icons/icon-144x144.png
+        href: https://shlink.rubenshaw.com
+
+    - LinkStack:
+        icon: https://link.rubenshaw.com/assets/linkstack/images/logo.svg
+        href: https://link.rubenshaw.com/dashboard
+
+- Misc:
+    - Ntfy:
+        icon: https://ntfy.sh/_site/images/favicon.ico
+        href: https://ntfy.rubenshaw.com
+
+    - SSH:
+        icon: /icons/ssh.svg
+        href: https://delta.rubenshaw.com
+
+    - VS Code Server:
+        icon: si-visualstudiocode-#007ACC
+        href: https://code.rubenshaw.com
+
+    - File Browser:
+        icon: https://demo.filebrowser.org/static/img/icons/favicon-32x32.png
+        href: https://files.rubenshaw.com
+
+    - YT-DL-Material:
+        icon: si-youtube-#FF0000
+        href: https://dl.rubenshaw.com
+
+    - Github:
+        icon: si-github-#181717
+        href: https://github.com/
+
+- Security:
+    - Vaultwarden:
+        icon: si-vaultwarden-#000000
+        href: https://vaultwarden.rubenshaw.com
+
+    - Authentik:
+        icon: https://auth.rubenshaw.com/static/dist/assets/icons/icon.png
+        href: https://auth.rubenshaw.com
+        widget:
+          type: authentik
+          url: https://auth.rubenshaw.com
+          key: {{HOMEPAGE_VAR_AUTHENTIK_API_KEY}}
