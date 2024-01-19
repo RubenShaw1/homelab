@@ -1,12 +1,24 @@
 version: "3.3"
 services:
   homepage:
-    image: ghcr.io/benphelps/homepage:latest
+    restart: on-failure
+    image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
+
     ports:
       - 8081:3000
     volumes:
       - /home/delta/homepage/config:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
       - /home/delta/homepage/icons/:/app/public/icons
       - /mnt/nas/:/mnt/nas
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - HOMEPAGE_VAR_PIHOLE_API_KEY=${HOMEPAGE_VAR_PIHOLE_API_KEY}
+      - HOMEPAGE_VAR_PORTAINER_API_KEY=${HOMEPAGE_VAR_PORTAINER_API_KEY}
+      - HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID=${HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID}
+      - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID=${HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID}
+      - HOMEPAGE_VAR_CLOUDFLARE_API_KEY=${HOMEPAGE_VAR_CLOUDFLARE_API_KEY}
+      - HOMEPAGE_VAR_AUTHENTIK_API_KEY=${HOMEPAGE_VAR_AUTHENTIK_API_KEY}
+      - HOMEPAGE_VAR_WEATHER_API_KEY=${HOMEPAGE_VAR_WEATHER_API_KEY}
