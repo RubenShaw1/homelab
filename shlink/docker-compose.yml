@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  shlink:
+    image: shlinkio/shlink:stable
+    restart: always
+    container_name: shlink-backend
+    environment:
+      - TZ="Europe/London"
+      - DEFAULT_DOMAIN=${DEFAULT_DOMAIN}
+      - IS_HTTPS_ENABLED=True
+      - GEOLITE_LICENSE_KEY=${GEOLITE_LICENSE_KEY}
+      - DB_DRIVER=maria
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=database
+    depends_on:
+      - database
+    ports:
+      - 8987:8080
+
+  database:
+    image: mariadb:10.8
+    restart: always
+    container_name: shlink-database
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+    volumes:
+      - /home/delta/shlink:/var/lib/mysql
+
+  shlink-web-client:
+    image: shlinkio/shlink-web-client
+    restart: always
+    container_name: shlink-gui
+    volumes:
+      - /home/delta/shlink/servers.json:/usr/share/nginx/html/servers.json
+    depends_on:
+      - shlink
+    ports:
+      - 8988:80
