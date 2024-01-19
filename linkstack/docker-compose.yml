@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+    linkstack:
+        container_name: linkstack
+        hostname: linkstack
+        environment:
+            - HTTPS_SERVER_NAME=link.rubenshaw.com
+            - TZ=Europe/London
+            - PHP_MEMORY_LIMIT=512M
+            - UPLOAD_MAX_FILESIZE=16M
+        ports:
+            - '8188:80'
+        volumes:
+            - linkstack:/htdocs
+        restart: unless-stopped
+        image: linkstackorg/linkstack:latest
+
+volumes:
+  linkstack:
