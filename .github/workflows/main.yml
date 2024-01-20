@@ -1,0 +1,27 @@
+name: Update Config Files
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'homepage/config/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: "self-hosted"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Update Config Files
+        uses: appleboy/scp-action@master
+        with:
+          username: delta
+          host: delta
+          key: ${{ secrets.SSH_DELTA }}
+          source: './homepage/config/*'
+          target: '/home/delta/homepage/config'
+          overwrite: true
